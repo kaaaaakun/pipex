@@ -1,0 +1,29 @@
+     1	#include <stdio.h>
+     2	#include <unistd.h>
+     3	
+     4	int main(int argc, char *argv[])
+     5	{
+     6	  char    command[] = "/bin/cat";
+     7	  char    *exargv[] = {"cat", "-n", "", NULL};
+     8	  char    *exenvp[] = {NULL};
+     9	  int     return_code = 0;
+    10	
+    11	  if (argc == 2) {
+    12	    /* 実行時引数（パス名）をexecveの引数にする */
+    13	    exargv[2] = argv[1];
+    14	    if (execve(command, exargv, exenvp) == -1) {
+    15	      printf("%sコマンドが実行できませんでした\n", command);
+    16	      perror("");
+    17	      return_code = 1;
+    18	    }
+    19	  }
+    20	  else {
+    21	    printf("実行時引数の数が不当です\n");
+    22	    return_code = 2;
+    23	  }
+    24	  printf("引数２個の時にはここには来ない");
+    25	  return return_code;
+    26	}
+    27	//how discover command path
+    28	//what is env
+    29	//make command atoi
