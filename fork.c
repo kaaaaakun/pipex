@@ -12,9 +12,11 @@ int main()
 	pid_t child2;
     child1 = fork(); 
     child2 = fork(); 
-sleep(5);
 pid = waitpid(child1, &status, WNOHANG);
     printf("Hello world!\n");
+    printf("[[%d]]\n", WNOHANG);
+    printf("[[%d]]\n", status);
+
     printf("	c1:%u|ch2:%u\n",child1,child2);
     return 0; 
 } 
