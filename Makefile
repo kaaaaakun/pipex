@@ -6,7 +6,7 @@
 #    By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 16:08:51 by tokazaki          #+#    #+#              #
-#    Updated: 2023/08/10 15:03:31 by tokazaki         ###   ########.fr        #
+#    Updated: 2023/08/10 19:56:41 by tokazaki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,13 +19,12 @@ OBJS_DIR = objs
 
 SRCS = 	main.c \
 		utils.c \
-	#	debug.c
 
 OBJS = $(SRCS:.c=.o)
 #OBJS	= $(addprefix $(OBJDIR)/, $(SRC:.c=.o))
 
 CC		= cc
-CFLAGS	= -Wall -Wextra -Werror -I./libft -I./srcs
+CFLAGS	= -Wall -Wextra -Werror -I./libft
 RM		= rm -f
 
 # Libft & Debug +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++#
