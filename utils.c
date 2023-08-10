@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   path.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tokazaki <tokazaki@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/07 12:26:24 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/07 14:55:14 by tokazaki         ###   ########.fr       */
+/*   Created: 2023/08/10 15:17:45 by tokazaki          #+#    #+#             */
+/*   Updated: 2023/08/10 17:10:42 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include "libft.h"
-#include <stdio.h>
+#include "pipex.h"
 
-int main(void)
+void	split_free(char **result)
 {
-	extern char** environ;
-	char **result;
-    // environ を使用して環境変数を表示する例
-    int i = 0;
-    while (ft_strncmp(environ[i], "PATH=",5) != 0) {
-//        printf("%i:%s\n",i, environ[i]);
-        i++;
-    }
-	result = ft_split(ft_strtrim(environ[i], "PATH="), ':');
+	int	i;
+
 	i = 0;
 	while (result[i] != NULL)
 	{
-        printf("%i:%s\n",i, result[i]);
+		free(result[i]);
 		i++;
 	}
+	free(result);
+}
 
-    return 0;
+void	error_exit(char *msg)
+{
+	perror(msg);
+	exit(1);
 }
