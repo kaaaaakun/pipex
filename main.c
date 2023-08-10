@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:09:27 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/10 19:52:45 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/10 20:31:11 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char *argv[])
 	{
 		waitpid(pid, &status, 0);
 		if (WEXITSTATUS(status) != 0)
-			error_exit("fork");
+			exit(1);
 		parentfork(argv, pipefd);
 	}
 	return (0);
@@ -48,22 +48,24 @@ void	childfork(char **argv, int *pipefd)
 
 	command = ft_split(argv[2], ' ');
 	if (!command)
-		error_exit("not enough arguments");
+		exit (1);
 	path = getpath(ft_strjoin("/", command[0]));
+	if (!path)
+		exit (1);
 	fd = open(argv[1], O_RDONLY);
-	if (!path || fd < 0)
-		error_exit(NULL);
+	if (fd < 0)
+		error_exit("open");
 	if (dup2(fd, STDIN_FILENO) < 0)
-		error_exit(NULL);
+		error_exit("dup2");
 	if (close(fd) < 0)
-		error_exit(NULL);
+		error_exit("close");
 	fd = pipefd[1];
 	if (dup2(fd, 1) < 0)
-		error_exit(NULL);
+		error_exit("dup2");
 	if (close(fd) < 0)
-		error_exit(NULL);
+		error_exit("close");
 	if (close(pipefd[0]) < 0)
-		error_exit(NULL);
+		error_exit("close");
 	execve(path, command, NULL);
 }
 
@@ -75,22 +77,22 @@ void	parentfork(char **argv, int *pipefd)
 
 	command = ft_split(argv[3], ' ');
 	if (!command)
-		error_exit("not enough arguments");
+		exit (1);
 	path = getpath(ft_strjoin("/", command[0]));
+	if (!path)
+		exit (1);
 	fd = pipefd[0];
-	if (dup2(fd, STDIN_FILENO) < 0 || !path)
-		error_exit(NULL);
+	if (dup2(fd, STDIN_FILENO) < 0)
+		error_exit("dup2");
 	if (close(fd) < 0)
 		error_exit("close");
 	fd = open(argv[4], O_CREAT | O_TRUNC | O_WRONLY, \
 		S_IRWXU | S_IRWXG | S_IRWXO);
 	if (fd < 0)
-		error_exit(NULL);
+		error_exit("fd");
 	if (dup2(fd, 1) < 0)
 		error_exit("dup2");
-	if (close(fd) < 0)
-		error_exit("close");
-	if (close(pipefd[1]) < 0)
+	if (close(fd) < 0 || close(pipefd[1]) < 0)
 		error_exit("close");
 	execve(path, command, NULL);
 }
