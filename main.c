@@ -40,6 +40,44 @@ int	main(int argc, char *argv[])
 	return (0);
 }
 
+int	ee_open(char *str, int oflag, int orflag)
+{
+	int	fd;
+	
+	fd = open(str, oflag, orflag);
+	if (fd < 0)
+	{
+		perror("open");
+		exit (1);
+	}
+	return (fd);
+}
+
+void	ee_dup2(int fd, int std)
+{
+	int	flag;
+
+	flag = dup2(fd, std);
+	if (flag < 0)
+	{
+		perror("dup2");
+		exit (1);
+	}
+}
+
+void	ee_close(int fd)
+{
+	int	flag;
+
+	flag = close(fd);
+	if (flag < 0)
+	{
+		perror("close");
+		exit (1);
+	}
+
+}
+
 void	childfork(char **argv, int *pipefd)
 {
 	int		fd;
@@ -52,20 +90,13 @@ void	childfork(char **argv, int *pipefd)
 	path = getpath(ft_strjoin("/", command[0]));
 	if (!path)
 		exit (1);
-	fd = open(argv[1], O_RDONLY);
-	if (fd < 0)
-		error_exit("open");
-	if (dup2(fd, STDIN_FILENO) < 0)
-		error_exit("dup2");
-	if (close(fd) < 0)
-		error_exit("close");
+	fd = ee_open(argv[1], O_RDONLY, 0);
+	ee_dup2(fd, STDIN_FILENO);
+	ee_close(fd);
 	fd = pipefd[1];
-	if (dup2(fd, 1) < 0)
-		error_exit("dup2");
-	if (close(fd) < 0)
-		error_exit("close");
-	if (close(pipefd[0]) < 0)
-		error_exit("close");
+	ee_dup2(fd, 1);
+	ee_close(fd);
+	ee_close(pipefd[0]);
 	execve(path, command, NULL);
 }
 
@@ -82,34 +113,21 @@ void	parentfork(char **argv, int *pipefd)
 	if (!path)
 		exit (1);
 	fd = pipefd[0];
-	if (dup2(fd, STDIN_FILENO) < 0)
-		error_exit("dup2");
-	if (close(fd) < 0)
-		error_exit("close");
-	fd = open(argv[4], O_CREAT | O_TRUNC | O_WRONLY, \
+	ee_dup2(fd, STDIN_FILENO);
+	ee_close(fd);
+	fd = ee_open(argv[4], O_CREAT | O_TRUNC | O_WRONLY, \
 		S_IRWXU | S_IRWXG | S_IRWXO);
-	if (fd < 0)
-		error_exit("fd");
-	if (dup2(fd, 1) < 0)
-		error_exit("dup2");
-	if (close(fd) < 0 || close(pipefd[1]) < 0)
-		error_exit("close");
+	ee_dup2(fd, 1);
+	ee_close(fd);
+	ee_close(pipefd[1]);
 	execve(path, command, NULL);
 }
 
-char	*getpath(char *command)
+char	*check_path(char *command, char **result)
 {
-	extern char	**environ;
-	char		**result;
-	char		*path;
-	int			i;
+	int		i;
+	char	*path;
 
-	i = 0;
-	if (!command)
-		exit (0);
-	while (ft_strncmp(environ[i], "PATH=", 5) != 0)
-		i++;
-	result = ft_split(ft_strtrim(environ[i], "PATH="), ':');
 	i = 0;
 	while (result[i] != NULL)
 	{
@@ -124,4 +142,21 @@ char	*getpath(char *command)
 	}
 	split_free(result);
 	return (NULL);
+}
+
+char	*getpath(char *command)
+{
+	extern char	**environ;
+	char		**result;
+	int			i;
+
+	i = 0;
+	if (!command)
+		exit (1);
+	while (ft_strncmp(environ[i], "PATH=", 5) != 0)
+		i++;
+	result = ft_split(ft_strtrim(environ[i], "PATH="), ':');
+	if (!result)
+		exit (1);
+	return (check_path(command, result));
 }
