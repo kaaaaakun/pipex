@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:09:27 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/12 10:55:00 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/12 11:00:13 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	childfork(char **argv, int *pipefd)
 	ee_dup2(fd, STDIN_FILENO);
 	ee_close(fd);
 	fd = pipefd[1];
-	ee_dup2(fd, 1);
+	ee_dup2(fd, STDOUT_FILENO);
 	ee_close(fd);
 	ee_close(pipefd[0]);
 	execve(path, command, NULL);
@@ -79,7 +79,7 @@ void	parentfork(char **argv, int *pipefd)
 	ee_close(fd);
 	fd = ee_open(argv[4], O_CREAT | O_TRUNC | O_WRONLY, \
 		S_IRWXU | S_IRWXG | S_IRWXO);
-	ee_dup2(fd, 1);
+	ee_dup2(fd, STDOUT_FILENO);
 	ee_close(fd);
 	ee_close(pipefd[1]);
 	execve(path, command, NULL);
