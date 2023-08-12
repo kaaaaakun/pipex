@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:17:45 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/12 11:01:31 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/12 15:07:13 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	error_exit(char *msg)
 	exit(1);
 }
 
-int	ee_open(char *str, int oflag, int orflag)
+int	open_ee(char *str, int oflag, int orflag)
 {
 	int	fd;
 
@@ -44,7 +44,7 @@ int	ee_open(char *str, int oflag, int orflag)
 	return (fd);
 }
 
-void	ee_dup2(int fd, int std)
+void	dup2_ee(int fd, int std)
 {
 	int	flag;
 
@@ -56,7 +56,7 @@ void	ee_dup2(int fd, int std)
 	}
 }
 
-void	ee_close(int fd)
+void	close_ee(int fd)
 {
 	int	flag;
 
