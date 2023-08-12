@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:09:27 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/10 20:31:11 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/12 10:55:00 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,44 +38,6 @@ int	main(int argc, char *argv[])
 		parentfork(argv, pipefd);
 	}
 	return (0);
-}
-
-int	ee_open(char *str, int oflag, int orflag)
-{
-	int	fd;
-	
-	fd = open(str, oflag, orflag);
-	if (fd < 0)
-	{
-		perror("open");
-		exit (1);
-	}
-	return (fd);
-}
-
-void	ee_dup2(int fd, int std)
-{
-	int	flag;
-
-	flag = dup2(fd, std);
-	if (flag < 0)
-	{
-		perror("dup2");
-		exit (1);
-	}
-}
-
-void	ee_close(int fd)
-{
-	int	flag;
-
-	flag = close(fd);
-	if (flag < 0)
-	{
-		perror("close");
-		exit (1);
-	}
-
 }
 
 void	childfork(char **argv, int *pipefd)
