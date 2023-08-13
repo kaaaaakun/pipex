@@ -6,7 +6,7 @@
 #    By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/07 16:08:51 by tokazaki          #+#    #+#              #
-#    Updated: 2023/08/10 19:56:41 by tokazaki         ###   ########.fr        #
+#    Updated: 2023/08/13 19:57:05 by tokazaki         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ OPERARIONS_DIR = operations
 OBJS_DIR = objs
 
 SRCS = 	main.c \
+		getpath.c \
 		utils.c \
 
 OBJS = $(SRCS:.c=.o)
