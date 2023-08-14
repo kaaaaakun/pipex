@@ -23,10 +23,12 @@
 int		main(int argc, char *argv[], char **env);
 void	firstfork(char **argv, int *pipefd, char **env);
 void	lastfork(char **argv, int *pipefd, char **env);
-void	waitchild(void);
+void	waitchild(int *pipefd, int pid);
 
-char	*getpath(char *command, char **env);
+char	*check_access(char *command, char **env);
 char	*check_path(char *command, char **result);
+char	**getpath(char **env);
+void	malloc_error(void);
 
 void	split_free(char **result);
 void	error_exit(char *msg);
