@@ -50,7 +50,7 @@ char	*check_path(char *command, char **path)
 	}
 	split_free(path);
 	ft_putstr_fd("command not found: ", STDERR_FILENO);
-	ft_putstr_fd(ft_strtrim(command, "/"), STDERR_FILENO);
+	ft_putendl_fd(ft_strtrim(command, "/"), STDERR_FILENO);
 	exit (1);
 }
 
