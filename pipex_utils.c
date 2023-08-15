@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 15:17:45 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/13 17:39:21 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/15 16:41:56 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	open_ee(char *str, int oflag, int orflag)
 	fd = open(str, oflag, orflag);
 	if (fd < 0)
 	{
-		ft_putstr_fd("No such file or directory: ", STDERR_FILENO);
-		ft_putendl_fd(str, STDERR_FILENO);
+		perror(str);
 		exit (1);
 	}
 	return (fd);
