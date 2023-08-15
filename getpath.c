@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42tokyo.>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/13 19:56:26 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/13 19:56:53 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:22:55 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	**getpath(char **env)
 	i = 0;
 	while (ft_strncmp(env[i], "PATH=", 5) != 0)
 		i++;
-	path = ft_split(ft_strtrim(env[i], "PATH="), ':');
+	path = ft_split(&env[i][5], ':');
 	if (!path)
 		return (NULL);
 	return (path);
@@ -56,7 +56,6 @@ char	*check_path(char *command, char **path)
 
 char	*check_access(char *command, char **env)
 {
-
 	if (!command)
 		return (NULL);
 	if (access(ft_strtrim(command, "./"), X_OK) == 0)

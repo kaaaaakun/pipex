@@ -6,7 +6,7 @@
 /*   By: tokazaki <tokazaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/10 13:09:27 by tokazaki          #+#    #+#             */
-/*   Updated: 2023/08/13 19:55:38 by tokazaki         ###   ########.fr       */
+/*   Updated: 2023/08/15 13:31:01 by tokazaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@ int	main(int argc, char *argv[], char *env[])
 	pid_t	pid;
 	int		pipefd[2];
 
-	if (argc == 1)
-	{
-		return (0);
-	}
 	if (argc != 5)
 	{
 		ft_putendl_fd("Please enter correct value", 2);
